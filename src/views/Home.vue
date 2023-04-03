@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapGetters} from 'vuex'
 import CTable from '@/components/CTable';
 export default {
   name: 'Home',
@@ -17,15 +17,12 @@ export default {
     ...mapActions([
         'ADD_MYTARIFS'
     ]),
-    message () {
-      this.$message('Тариф был добавлен!')
+    addTarif(data) {
+        this.ADD_MYTARIFS(data)
+        this.$message('Тариф был добавлен!')
         this.$router.push({
             name: 'mytarifs',
         })
-    },
-    addTarif(data) {
-        this.ADD_MYTARIFS(data)
-        this.message()
     }
   },
   computed: {

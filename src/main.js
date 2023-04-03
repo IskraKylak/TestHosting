@@ -5,4 +5,8 @@ import store from './store'
 import 'bulma/css/bulma.css'
 import message from './utils/message.plugin'
 
-createApp(App).use(message).use(store).use(router).mount('#app')
+const app = createApp(App)
+
+
+app.use(message).use(store).use(router).mount('#app')
+

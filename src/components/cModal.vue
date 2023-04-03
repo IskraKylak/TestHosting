@@ -8,7 +8,7 @@
           <button class="delete" aria-label="close" @click="closeModal"></button>
         </header>
         <section class="modal-card-body">
-            <CTable v-if="TARIFS.length" :content="TARIFS" :typePage="'Modal'" @cahngeTarif="cahngeTarif" />
+            <CTable v-if="TARIFS.length" :content="TARIFS" :typePage="'Modal'" @cahngeTarif="cahngeTarif"  @error="this.$emit('error')"/>
         </section>
 
       </div>
@@ -17,36 +17,39 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 import CTable from '@/components/CTable'
 export default {
     components: {
         CTable
     },
-    data() {
-        return {
-        title: 'Тарифы',
-        };
-    },
-    computed: {
-        ...mapGetters([
-            'ACTIVEMODAL',
-            'TARIFS'
-        ]),
-    },
-    methods: {
-        cahngeTarif(data) {
-            this.$emit('cahngeTarif', data)
-        },
-        ...mapActions([
-            'setModalActive'
-        ]),
-        showModal() {
-            this.setModalActive(true);
-        },
-        closeModal() {
-            this.setModalActive(false);
-        }
+    setup(props, { emit }) {
+      const title = 'Тарифы'
+      const store = useStore()
+      const ACTIVEMODAL = computed(() => store.getters.ACTIVEMODAL)
+      const TARIFS = computed(() => store.getters.TARIFS)
+
+      const cahngeTarif = (data) => {
+        emit('cahngeTarif', data)
+      }
+
+      const showModal = () => {
+        store.dispatch('setModalActive', true)
+      }
+
+      const closeModal = () => {
+        store.dispatch('setModalActive', false)
+      }
+
+      return {
+        title,
+        ACTIVEMODAL,
+        TARIFS,
+        cahngeTarif,
+        showModal,
+        closeModal
+      }
     }
 };
 </script>

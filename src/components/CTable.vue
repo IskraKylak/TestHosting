@@ -51,66 +51,76 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
     name: 'CTable',
-    props:['content','typePage'],
-    data() {
-        return {
-        headers: [
-            { text: 'Название'},
-            { text: 'CPU'},
-            { text: 'RAM'},
-            { text: 'Disk Size'}
-        ]
-        }
-    },
-    methods: {
-        upgrade(item) {
+    props: ['content', 'typePage'],
+    setup(props, { emit }) {
+        const store = useStore()
+
+        const headers = ref([
+            { text: 'Название' },
+            { text: 'CPU' },
+            { text: 'RAM' },
+            { text: 'Disk Size' }
+        ])
+
+        const upgrade = (item) => {
             const obj = {
-                idx: this.SELECTED.idx,
+                idx: store.getters.SELECTED.idx,
                 item: item
             }
-            this.$emit('cahngeTarif', obj)
-        },
-        downgrade (item) {
-            if(item.size !== this.SELECTED.item.size) {
-                this.$message('Процедура разрешена лишь для тарифов с одинаĸовым размером дисĸов')
+            emit('cahngeTarif', obj)
+        }
+
+        const downgrade = (item) => {
+            if (item.size !== store.getters.SELECTED.item.size) {
+                emit('error')
             } else {
-                this.upgrade(item)
+                upgrade(item)
             }
-        },
-        typeBtn(item) {
-            if(this.SELECTED) {
-                if(item.size > this.SELECTED.item.size) {
+        }
+
+        const typeBtn = (item) => {
+            if (store.getters.SELECTED) {
+                if (item.size > store.getters.SELECTED.item.size) {
                     return 'up'
                 }
-                if(item.size < this.SELECTED.item.size) {
+                if (item.size < store.getters.SELECTED.item.size) {
                     return 'down'
                 }
-                if(item.size == this.SELECTED.item.size) {
-                    if(item.id == this.SELECTED.item.id)
+                if (item.size === store.getters.SELECTED.item.size) {
+                    if (item.id === store.getters.SELECTED.item.id) {
                         return 'your'
-                    else if (item.id > this.SELECTED.item.id)
+                    } else if (item.id > store.getters.SELECTED.item.id) {
                         return 'up'
-                    else
+                    } else {
                         return 'down'
+                    }
                 }
             }
-        },
-        openModal(item, idx) {
-            const obj = {
-                idx: idx,
-                item: item
-            }
-            this.$emit('openModal', obj)
         }
-    },
-    computed: {
-      ...mapGetters([
-          'SELECTED',
-      ]),
-  }
+
+        const openModal = (item, idx) => {
+        const obj = {
+            idx: idx,
+            item: item
+        }
+        emit('openModal', obj)
+        }
+
+        const SELECTED = computed(() => store.getters.SELECTED)
+
+        return {
+            headers,
+            upgrade,
+            downgrade,
+            typeBtn,
+            openModal,
+            SELECTED
+        }
+    }
 }
 </script>
 

@@ -37,6 +37,7 @@ describe('Home.vue', () => {
         {id:4 , name:"Тариф 99622", cpu:19, ram:99622, size:80},
       ];
 
+
       const router = {
         push: jest.fn()
       }
@@ -49,7 +50,7 @@ describe('Home.vue', () => {
           CTable
         },
         mocks: {
-          $router: router
+          $router: router,
         }
       }
     });
