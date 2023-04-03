@@ -1,5 +1,4 @@
 <template>
-    // Rername this file
     <table class="table is-striped is-fullwidth">
       <thead>
         <tr>
