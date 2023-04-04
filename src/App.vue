@@ -29,6 +29,7 @@
   position: relative;
   padding: 30px 0 40px 0;
   min-height: 100vh;
+  overflow: hidden;
 
   img {
     position: absolute;
