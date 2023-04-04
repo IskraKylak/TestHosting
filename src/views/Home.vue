@@ -34,7 +34,8 @@ export default {
 </script>
 <style>
 .table-container {
-  margin-top: 20px;
+  padding: 0 20px;
+  
 }
 
 </style>
