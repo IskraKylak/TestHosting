@@ -63,7 +63,8 @@ export default {
             { text: 'Название' },
             { text: 'CPU' },
             { text: 'RAM' },
-            { text: 'Disk Size' }
+            { text: 'Disk Size' },
+            { text: 'Action' }
         ])
 
         const upgrade = (item) => {
